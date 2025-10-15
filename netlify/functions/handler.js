@@ -80,8 +80,9 @@ exports.handler = async function(event, context) {
                   result.data.forEach(city => {
                     const item = document.createElement('div');
                     item.className = 'result-item';
-                    item.innerHTML = \`\${city.description} <small>\${city.area}</small>\`;
-                    item.onclick = () => selectCity(city);
+                    // Новый код
+item.textContent = city.description; // Просто показываем полное красивое описание
+item.onclick = () => selectCity(city);
                     cityResults.appendChild(item);
                   });
                   cityResults.classList.remove('hidden');
@@ -92,13 +93,14 @@ exports.handler = async function(event, context) {
           }, 300);
         });
 
-        // Выбор города
-        function selectCity(city) {
-          cityInput.value = city.description;
-          selectedCityRef = city.ref;
-          cityResults.classList.add('hidden');
-          warehouseGroup.classList.remove('hidden');
-        }
+        // Новый код
+function selectCity(city) {
+  // В поле ввода оставляем короткое название, а не всю длинную строку
+  cityInput.value = city.simpleName; 
+  selectedCityRef = city.ref;
+  cityResults.classList.add('hidden');
+  warehouseGroup.classList.remove('hidden');
+}
 
         // Поиск отделений
         warehouseInput.addEventListener('keyup', () => {
